@@ -11,8 +11,8 @@ const createUser = async (req: Request, res: Response) => {
       success: true,
       message: 'Successfully create user',
     })
-  } catch (error: any) {
-    console.log(error.message)
+  } catch (error: unknown) {
+    // console.log(error.message)
     res.status(400).json({
       success: false,
       message: 'faild to create user',
