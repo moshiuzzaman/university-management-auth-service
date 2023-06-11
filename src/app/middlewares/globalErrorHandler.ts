@@ -1,16 +1,19 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-expressions */
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
 import { IGenericErrorMessage } from '../../interfaces/error';
 import handleValidationError from '../../errors/handleValidationError';
 import handleZodError from '../../errors/handleZodError';
+import handleCastError from '../../errors/handleCastError';
 import ApiError from '../../errors/ApiError';
 import { errorLogger } from '../../shared/Logger';
 import { ZodError } from 'zod';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   config.env === 'development'
-    ? console.log('💣 globalErrorHandler ~ ', error)
+    ? console.log('💣 globalErrorHandler ~ ', error.message)
     : errorLogger.error('💣 globalErrorHandler ~ ', error);
 
   let statusCode = 500;
@@ -19,6 +22,11 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
 
   if (error?.name === 'ValidationError') {
     const simplifliedError = handleValidationError(error);
+    statusCode = simplifliedError.statusCode;
+    message = simplifliedError.message;
+    errorMessages = simplifliedError.errorMessages;
+  } else if (error?.name === 'CastError') {
+    const simplifliedError = handleCastError(error);
     statusCode = simplifliedError.statusCode;
     message = simplifliedError.message;
     errorMessages = simplifliedError.errorMessages;
@@ -49,7 +57,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     errorMessages,
     stack: config.env === 'production' ? undefined : error?.stack,
   });
-  next();
+  // next(error);
 };
 
 export default globalErrorHandler;
