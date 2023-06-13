@@ -6,7 +6,7 @@ import sendResponse from '../../../shared/sendResponse';
 import { IAcademicFaculty } from './academicFaculty.interface';
 import pick from '../../../shared/pick';
 import { facultyFilterableFildes } from './academicFaculty.constant';
-import { paginationFilds } from '../../../constants/pagination';
+import { paginationFields } from '../../../constants/pagination';
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
   const academicFaculty = req.body;
@@ -25,7 +25,7 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
 const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, facultyFilterableFildes);
 
-  const paginationOptions = pick(req.query, paginationFilds);
+  const paginationOptions = pick(req.query, paginationFields);
 
   const result = await AcademicFacultyServices.getAllFaculties(
     filters,

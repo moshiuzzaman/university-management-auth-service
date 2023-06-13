@@ -10,6 +10,6 @@ export type AcademicFacultyModel = Model<
 >;
 
 export type IAcademicFacultyFilter = {
-  searchTurm?: string;
+  searchTerm?: string;
   title?: string;
 };

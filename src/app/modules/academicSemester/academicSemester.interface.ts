@@ -25,7 +25,7 @@ export type IAcademicsemester = {
   endMonth: IAcademicSemesterMonth;
 };
 export type IAcademicsemesterFilter = {
-  searchTurm?: string;
+  searchTerm?: string;
   title?: string;
   code?: string;
   year?: string;

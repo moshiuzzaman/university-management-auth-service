@@ -34,15 +34,15 @@ const getAllSemesters = async (
   const { page, limit, skip, sortBy, sortOrder } =
     PaginationHelpers.calculatePagination(paginationOptions);
 
-  const { searchTurm, ...filtersData } = filters;
+  const { searchTerm, ...filtersData } = filters;
 
   const andCondition = [];
 
-  if (searchTurm) {
+  if (searchTerm) {
     andCondition.push({
       $or: semesterSearchableFildes.map(field => ({
         [field]: {
-          $regex: searchTurm,
+          $regex: searchTerm,
           $options: 'i',
         },
       })),

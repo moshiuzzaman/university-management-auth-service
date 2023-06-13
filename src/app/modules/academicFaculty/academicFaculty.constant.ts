@@ -1,2 +1,2 @@
 export const facultySearchableFildes = ['title'];
-export const facultyFilterableFildes = ['searchTurm', 'title'];
+export const facultyFilterableFildes = ['searchTerm', 'title'];
