@@ -37,7 +37,7 @@ const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
     data: result.data,
     meta: result.meta,
     success: true,
-    message: 'Facultys retrieved successfully.',
+    message: 'faculties retrieved successfully.',
   };
   sendResponse<IAcademicFaculty[]>(res, response);
 });

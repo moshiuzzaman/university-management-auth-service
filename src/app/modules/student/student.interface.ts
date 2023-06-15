@@ -26,7 +26,7 @@ export type ILocalGuardian = {
   address: string;
 };
 export type IStudent = {
-  studentId: string;
+  id: string;
   name: IUserName;
   gender: 'male' | 'female';
   dateOfBirth: Date;
@@ -49,7 +49,7 @@ export type StudentModel = Model<IStudent, Record<string, unknown>>;
 export type IStudentFilter = {
   searchTerm?: string;
   email?: string;
-  studentId?: string;
+  id?: string;
   gender?: string;
   bloodGroup?: string;
   contactNo?: string;

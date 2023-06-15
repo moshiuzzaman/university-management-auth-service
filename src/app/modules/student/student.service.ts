@@ -2,14 +2,16 @@ import { SortOrder } from 'mongoose';
 import { PaginationHelpers } from '../../../helpers/paginationHelpers';
 import IGenericResponse from '../../../interfaces/IGenericResponse';
 import { IPaginationOptions } from '../../../interfaces/IpaginationOptions';
-import { studentSearchableFildes } from './student.constant';
-import { IStudent, IStudentFilter } from './student.interface';
+
+import { IStudent } from './student.interface';
 import { Student } from './student.model';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { userSearchableFildes } from '../../../constants/user';
+import { IUserFilter } from '../../../interfaces/IUser';
 
 const getAllStudents = async (
-  filters: IStudentFilter,
+  filters: IUserFilter,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IStudent[]>> => {
   const { page, limit, skip, sortBy, sortOrder } =
@@ -21,7 +23,7 @@ const getAllStudents = async (
 
   if (searchTerm) {
     andCondition.push({
-      $or: studentSearchableFildes.map(field => ({
+      $or: userSearchableFildes.map(field => ({
         [field]: {
           $regex: searchTerm,
           $options: 'i',

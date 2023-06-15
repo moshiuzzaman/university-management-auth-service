@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
-import { studentFilterableFildes } from './student.constant';
 import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
 import { StudentServices } from './student.service';
 import httpStatus from 'http-status';
 import { IStudent } from './student.interface';
 import sendResponse from '../../../shared/sendResponse';
+import { userFilterableFildes } from '../../../constants/user';
 
 const getAllStudents = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, studentFilterableFildes);
+  const filters = pick(req.query, userFilterableFildes);
 
   const paginationOptions = pick(req.query, paginationFields);
 
