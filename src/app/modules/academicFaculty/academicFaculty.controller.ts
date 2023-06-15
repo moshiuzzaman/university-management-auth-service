@@ -85,7 +85,7 @@ const deleteFaculty = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IAcademicFaculty>(res, response);
 });
 
-export const AcademicFacultyControl = {
+export const AcademicFacultyController = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,

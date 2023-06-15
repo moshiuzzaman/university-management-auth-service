@@ -85,7 +85,7 @@ const deleteSemester = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IAcademicsemester>(res, response);
 });
 
-export const AcademicSemesterControl = {
+export const AcademicSemesterController = {
   createSemester,
   getAllSemesters,
   getSingleSemester,
