@@ -1,4 +1,4 @@
-import { SortOrder } from 'mongoose';
+import mongoose, { SortOrder, Types } from 'mongoose';
 import { userSearchableFildes } from '../../../constants/user';
 import { PaginationHelpers } from '../../../helpers/paginationHelpers';
 import IGenericResponse from '../../../interfaces/IGenericResponse';
@@ -8,6 +8,7 @@ import { IFaculty } from './faculty.interface';
 import { Faculty } from './faculty.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
+import { User } from '../users/user.model';
 
 const getAllfaculties = async (
   filters: IUserFilter,
@@ -102,14 +103,34 @@ const updateFaculty = async (
 };
 
 const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
-  const result = await Faculty.findByIdAndDelete(id);
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const userData = await User.findOneAndDelete(
+      { admin: new Types.ObjectId(id) },
+      { session }
+    );
 
-  if (!result) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Id');
+    if (!userData) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'faild to delete admin by User data'
+      );
+    }
+    const result = await Faculty.findByIdAndDelete(id, { session });
+
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Id');
+    }
+    await session.commitTransaction();
+    await session.endSession;
+    return result;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession;
+    throw error;
   }
-  return result;
 };
-
 export const FacultyServices = {
   getAllfaculties,
   getSingleFaculty,
