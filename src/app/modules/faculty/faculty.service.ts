@@ -1,4 +1,4 @@
-import mongoose, { SortOrder, Types } from 'mongoose';
+import mongoose, { SortOrder } from 'mongoose';
 import { userSearchableFildes } from '../../../constants/user';
 import { PaginationHelpers } from '../../../helpers/paginationHelpers';
 import IGenericResponse from '../../../interfaces/IGenericResponse';
@@ -64,7 +64,7 @@ const getAllfaculties = async (
 };
 
 const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
-  const result = await Faculty.findById(id)
+  const result = await Faculty.findOne({ id })
     .populate('academicDepartment')
     .populate('academicFaculty');
   return result;
@@ -74,7 +74,7 @@ const updateFaculty = async (
   id: string,
   payload: Partial<IFaculty>
 ): Promise<IFaculty | null> => {
-  const isExist = await Faculty.findById(id);
+  const isExist = await Faculty.findOne({ id });
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found');
   }
@@ -89,7 +89,7 @@ const updateFaculty = async (
     });
   }
   const result = await Faculty.findOneAndUpdate(
-    { _id: id },
+    { id },
     { $set: updatedFacultyData },
     {
       new: true,
@@ -106,10 +106,7 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const userData = await User.findOneAndDelete(
-      { admin: new Types.ObjectId(id) },
-      { session }
-    );
+    const userData = await User.findOneAndDelete({ id }, { session });
 
     if (!userData) {
       throw new ApiError(
@@ -117,7 +114,7 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
         'faild to delete admin by User data'
       );
     }
-    const result = await Faculty.findByIdAndDelete(id, { session });
+    const result = await Faculty.findOneAndDelete({ id }, { session });
 
     if (!result) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Id');

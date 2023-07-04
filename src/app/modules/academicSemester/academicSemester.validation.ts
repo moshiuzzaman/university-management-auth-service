@@ -24,6 +24,7 @@ const createAcademicSemesterZodSchema = z.object({
     }),
   }),
 });
+
 const updateAcademicSemesterZodSchema = z
   .object({
     body: z.object({

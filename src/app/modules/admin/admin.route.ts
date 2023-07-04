@@ -1,7 +1,7 @@
 import express from 'express';
 import ValidateRequest from '../../middlewares/velidateRequest';
 import { AdminController } from './admin.controller';
-import { AdminValidation } from './admin.velidation';
+import { AdminValidation } from './admin.validation';
 const router = express.Router();
 
 router.get('/:id', AdminController.getSingleAdmin);

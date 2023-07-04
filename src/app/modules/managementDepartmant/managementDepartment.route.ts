@@ -1,7 +1,7 @@
 import express from 'express';
 import ValidateRequest from '../../middlewares/velidateRequest';
 import { ManagementDepartmentController } from './managementDepartment.controller';
-import { ManagementDepartmentValidation } from './managementDepartment.velidation';
+import { ManagementDepartmentValidation } from './managementDepartment.validation';
 const router = express.Router();
 
 router.post(

@@ -1,4 +1,5 @@
-import mongoose, { SortOrder, Types } from 'mongoose';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import mongoose, { SortOrder } from 'mongoose';
 import { userSearchableFildes } from '../../../constants/user';
 import { PaginationHelpers } from '../../../helpers/paginationHelpers';
 import IGenericResponse from '../../../interfaces/IGenericResponse';
@@ -63,7 +64,7 @@ const getAllAdmins = async (
 };
 
 const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findById(id).populate('managementDepartment');
+  const result = await Admin.findOne({ id }).populate('managementDepartment');
   if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, '😡 Admin not found');
   }
@@ -74,7 +75,7 @@ const updateAdmin = async (
   id: string,
   payload: Partial<IAdmin>
 ): Promise<IAdmin | null> => {
-  const isExist = await Admin.findById(id);
+  const isExist = await Admin.findOne({ id });
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found');
   }
@@ -89,7 +90,7 @@ const updateAdmin = async (
     });
   }
   const result = await Admin.findOneAndUpdate(
-    { _id: id },
+    { id },
     { $set: updatedAdminData },
     {
       new: true,
@@ -106,10 +107,7 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const userData = await User.findOneAndDelete(
-      { admin: new Types.ObjectId(id) },
-      { session }
-    );
+    const userData = await User.findOneAndDelete({ id }, { session });
 
     if (!userData) {
       throw new ApiError(
@@ -117,7 +115,7 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
         'faild to delete admin by User data'
       );
     }
-    const result = await Admin.findByIdAndDelete(id, { session });
+    const result = await Admin.findOneAndDelete({ id }, { session });
 
     if (!result) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Id');
