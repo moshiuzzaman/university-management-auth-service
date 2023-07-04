@@ -36,10 +36,12 @@ export const FacultySchema = new Schema<IFaculty, FacultyModel>(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     contactNo: {
       type: String,
       required: true,
+      unique: true,
     },
     emergencyContactNo: {
       type: String,

@@ -10,7 +10,6 @@ import { paginationFields } from '../../../constants/pagination';
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
   const academicFaculty = req.body;
-
   const result = await AcademicFacultyServices.createFaculty(academicFaculty);
 
   const response = {

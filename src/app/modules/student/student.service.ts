@@ -1,4 +1,4 @@
-import mongoose, { SortOrder, Types } from 'mongoose';
+import mongoose, { SortOrder } from 'mongoose';
 import { PaginationHelpers } from '../../../helpers/paginationHelpers';
 import IGenericResponse from '../../../interfaces/IGenericResponse';
 import { IPaginationOptions } from '../../../interfaces/IpaginationOptions';
@@ -66,7 +66,7 @@ const getAllStudents = async (
 };
 
 const getSingleStudent = async (id: string): Promise<IStudent | null> => {
-  const result = await Student.findById(id)
+  const result = await Student.findOne({ id })
     .populate('academicSemester')
     .populate('academicDepartment')
     .populate('academicFaculty');
@@ -77,7 +77,7 @@ const updateStudent = async (
   id: string,
   payload: Partial<IStudent>
 ): Promise<IStudent | null> => {
-  const isExist = await Student.findById(id);
+  const isExist = await Student.findOne({ id });
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Student not found');
   }
@@ -108,7 +108,7 @@ const updateStudent = async (
   }
 
   const result = await Student.findOneAndUpdate(
-    { _id: id },
+    { id },
     { $set: updatedStudentData },
     {
       new: true,
@@ -125,10 +125,7 @@ const deleteStudent = async (id: string): Promise<IStudent | null> => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const userData = await User.findOneAndDelete(
-      { admin: new Types.ObjectId(id) },
-      { session }
-    );
+    const userData = await User.findOneAndDelete({ id }, { session });
 
     if (!userData) {
       throw new ApiError(

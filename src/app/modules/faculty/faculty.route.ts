@@ -1,7 +1,7 @@
 import express from 'express';
 import ValidateRequest from '../../middlewares/velidateRequest';
 import { FacultyController } from './faculty.controller';
-import { FacultyValidation } from './faculty.velidation';
+import { FacultyValidation } from './faculty.validation';
 const router = express.Router();
 
 router.get('/:id', FacultyController.getSingleFaculty);
