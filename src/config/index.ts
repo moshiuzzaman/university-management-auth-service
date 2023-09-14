@@ -20,4 +20,8 @@ export default {
     jwt_refresh_secret: env.JWT_REFRESH_SECRET as Secret,
     jwt_refresh_secret_expires_in: env.JWT_REFRESH_SECRET_EXPIRES_IN as string,
   },
+  redis: {
+    url: env.REDIS_URL,
+    expires_in: env.REDIS_TOKEN_EXPIRES_IN,
+  },
 };
