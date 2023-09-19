@@ -8,6 +8,7 @@ import {
   semesterSearchableFildes,
 } from './academicSemester.constant';
 import {
+  IAcademicSemesterFromEvent,
   IAcademicsemester,
   IAcademicsemesterFilter,
 } from './academicSemester.interface';
@@ -110,10 +111,47 @@ const deleteSemester = async (
   return result;
 };
 
+const createSemesterFromEvent = async (
+  payload: IAcademicSemesterFromEvent
+): Promise<void> => {
+  await AcademicSemester.create({
+    title: payload.title,
+    year: payload.year,
+    code: payload.code,
+    startMonth: payload.startMonth,
+    endMonth: payload.endMonth,
+    syncId: payload.id,
+  });
+};
+
+const updateSemesterFromEvent = async (
+  payload: IAcademicSemesterFromEvent
+): Promise<void> => {
+  await AcademicSemester.findOneAndUpdate(
+    { syncId: payload.id },
+    {
+      $set: {
+        title: payload.title,
+        year: payload.year,
+        code: payload.code,
+        startMonth: payload.startMonth,
+        endMonth: payload.endMonth,
+      },
+    }
+  );
+};
+
+const deleteSemesterFromEvent = async (id: string): Promise<void> => {
+  await AcademicSemester.findOneAndDelete({ syncId: id });
+};
+
 export const AcademicSemesterService = {
   createSemester,
   getAllSemesters,
   getSingleSemester,
   updateSemester,
   deleteSemester,
+  createSemesterFromEvent,
+  updateSemesterFromEvent,
+  deleteSemesterFromEvent,
 };
