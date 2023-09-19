@@ -1,15 +1,14 @@
 import { Model, Types } from 'mongoose';
-import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface';
 
 export type IAcademicDepartment = {
   title: string;
-  academicFaculty: Types.ObjectId | IAcademicFaculty;
+  academicFaculty: string;
   syncId: string;
 };
 
 export type IAcademicDepartmentFromEvent = {
   title: string;
-  academicFaculty: Types.ObjectId | IAcademicFaculty;
+  academicFacultyId: string;
   id: string;
 };
 

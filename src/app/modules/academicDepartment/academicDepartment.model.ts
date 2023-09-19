@@ -15,8 +15,7 @@ const AcademicDepartmentSchema = new Schema<
       unique: true,
     },
     academicFaculty: {
-      type: Schema.Types.ObjectId,
-      ref: 'AcademicFaculty',
+      type: String,
       required: true,
     },
     syncId: {

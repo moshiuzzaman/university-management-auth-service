@@ -1,5 +1,6 @@
 import {
   IAcademicFaculty,
+  IAcademicFacultyEvent,
   IAcademicFacultyFilter,
 } from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
@@ -103,10 +104,41 @@ const deleteFaculty = async (id: string): Promise<IAcademicFaculty | null> => {
   return result;
 };
 
+const createFacultyFromEvent = async (
+  payload: IAcademicFacultyEvent
+): Promise<void> => {
+  await AcademicFaculty.create({
+    title: payload.title,
+    syncId: payload.id,
+  });
+};
+
+const updateFacultyFromEvent = async (
+  payload: IAcademicFacultyEvent
+): Promise<void> => {
+  await AcademicFaculty.findOneAndUpdate(
+    {
+      syncId: payload.id,
+    },
+    {
+      title: payload.title,
+    }
+  );
+};
+
+const deleteFacultyFromEvent = async (id: string): Promise<void> => {
+  await AcademicFaculty.findOneAndDelete({
+    syncId: id,
+  });
+};
+
 export const AcademicFacultyServices = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
   updateFaculty,
   deleteFaculty,
+  createFacultyFromEvent,
+  updateFacultyFromEvent,
+  deleteFacultyFromEvent,
 };
