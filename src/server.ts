@@ -4,6 +4,7 @@ import config from './config';
 import { logger, errorLogger } from './shared/Logger';
 import { Server } from 'http';
 import { RedisClient } from './shared/redis';
+import subscribeToEvents from './app/events';
 
 process.on('uncaughtException', error => {
   errorLogger.error('error from uncaughtException ~', error);
@@ -13,12 +14,14 @@ process.on('uncaughtException', error => {
 let server: Server;
 const bootstrap = async () => {
   try {
-    await RedisClient.connect();
+    await RedisClient.connect().then(() => {
+      subscribeToEvents();
+    });
     await mongoose.connect(config.database_url as string);
     logger.info('✅ Database connect successfully');
 
     server = app.listen(config.port, () => {
-      logger.info(`🏃‍♂️  App listening on port ${config.port}`);
+      logger.info(`🏃‍♂️ Auth Server running on port ${config.port}`);
     });
   } catch (error) {
     errorLogger.error('❌ Database connection faild');
