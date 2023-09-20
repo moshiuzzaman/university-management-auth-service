@@ -118,8 +118,10 @@ const updateDepartmentFromEvent = async (
   await AcademicDepartment.findOneAndUpdate(
     { syncId: payload.id },
     {
-      title: payload.title,
-      academicFaculty: payload.academicFacultyId,
+      $set: {
+        title: payload.title,
+        academicFaculty: payload.academicFacultyId,
+      },
     }
   );
 };

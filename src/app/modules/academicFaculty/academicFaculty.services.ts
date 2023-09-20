@@ -121,7 +121,9 @@ const updateFacultyFromEvent = async (
       syncId: payload.id,
     },
     {
-      title: payload.title,
+      $set: {
+        title: payload.title,
+      },
     }
   );
 };
