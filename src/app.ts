@@ -23,8 +23,8 @@ app.use((req: Request, res: Response) => {
     success: false,
     message: 'Not Found',
     errorMessages: {
-      path: req.originalUrl,
-      message: '❌ Api not Found ❌',
+      path: req.originalUrl, 
+      message: '❌ Api not Found in auth service ❌',
     },
   });
 });
