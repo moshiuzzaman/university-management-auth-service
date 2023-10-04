@@ -24,7 +24,7 @@ const bootstrap = async () => {
       logger.info(`🏃‍♂️ Auth Server running on port ${config.port}`);
     });
   } catch (error) {
-    errorLogger.error('❌ Database connection faild');
+    errorLogger.error('❌ Database connection failed');
   }
   process.on('unhandledRejection', error => {
     errorLogger.error('error from uncaughtException ~', error);
@@ -39,7 +39,7 @@ const bootstrap = async () => {
 bootstrap();
 
 process.on('SIGTERM', () => {
-  logger.info('SIGTERM is recived');
+  logger.info('SIGTERM is received');
   if (server) {
     server.close();
   }

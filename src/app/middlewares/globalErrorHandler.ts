@@ -21,20 +21,20 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let errorMessages: IGenericErrorMessage[] = [];
 
   if (error?.name === 'ValidationError') {
-    const simplifliedError = handleValidationError(error);
-    statusCode = simplifliedError.statusCode;
-    message = simplifliedError.message;
-    errorMessages = simplifliedError.errorMessages;
+    const simplifiedError = handleValidationError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
   } else if (error?.name === 'CastError') {
-    const simplifliedError = handleCastError(error);
-    statusCode = simplifliedError.statusCode;
-    message = simplifliedError.message;
-    errorMessages = simplifliedError.errorMessages;
+    const simplifiedError = handleCastError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
   } else if (error instanceof ZodError) {
-    const simplifliedError = handleZodError(error);
-    statusCode = simplifliedError.statusCode;
-    message = simplifliedError.message;
-    errorMessages = simplifliedError.errorMessages;
+    const simplifiedError = handleZodError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
   } else if (error instanceof ApiError) {
     message = error?.message;
     errorMessages = error?.message
